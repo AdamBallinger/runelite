@@ -532,6 +532,8 @@ public class GroundItemsPlugin extends Plugin
 			{
 				lastEntry.setDeprioritized(true);
 			}
+
+			client.setMenuEntries(menuEntries);
 		}
 	}
 
@@ -621,6 +623,11 @@ public class GroundItemsPlugin extends Plugin
 		{
 			setHotKeyPressed(false);
 		}
+	}
+
+	private int getNaturePrice()
+	{
+		return itemManager.getItemPrice(ItemID.NATURE_RUNE);
 	}
 
 	private void notifyHighlightedItem(GroundItem item)

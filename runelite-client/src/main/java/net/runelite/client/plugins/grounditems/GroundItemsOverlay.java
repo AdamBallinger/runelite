@@ -60,6 +60,7 @@ import net.runelite.client.ui.overlay.components.ProgressPieComponent;
 import net.runelite.client.ui.overlay.components.TextComponent;
 import net.runelite.client.util.QuantityFormatter;
 
+
 public class GroundItemsOverlay extends Overlay
 {
 	private static final int MAX_DISTANCE = 2500;
@@ -278,6 +279,14 @@ public class GroundItemsOverlay extends Overlay
 						.append(" (")
 						.append(QuantityFormatter.quantityToStackSize(price))
 						.append(" gp)");
+				}
+			}
+
+			if (config.tagProfitableAlchables())
+			{
+				if (plugin.isItemAlchProfitable(item.getItemId()))
+				{
+					itemStringBuilder.append(config.profitablesTag());
 				}
 			}
 

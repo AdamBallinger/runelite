@@ -53,6 +53,7 @@ import net.runelite.client.input.KeyListener;
 import net.runelite.client.input.KeyManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.OSType;
 
@@ -79,14 +80,28 @@ public class LoginScreenPlugin extends Plugin implements KeyListener
 	@Inject
 	private KeyManager keyManager;
 
+	private NavigationButton navButton;
+	private AccountsPanel accountsPanel;
+
 	private String usernameCache;
 
 	@Override
 	protected void startUp() throws Exception
 	{
+		accountsPanel = injector.getInstance(AccountsPanel.class);
+
 		applyUsername();
 		keyManager.registerKeyListener(this);
 		clientThread.invoke(this::overrideLoginScreen);
+
+		final BufferedImage icon = ImageUtil.getResourceStreamFromClass(getClass(), "rs_character_default.png");
+
+		navButton = NavigationButton.builder()
+				.tooltip("Account Management")
+				.icon(icon)
+				.priority(10)
+				.panel(accountsPanel)
+				.build();
 	}
 
 	@Override
