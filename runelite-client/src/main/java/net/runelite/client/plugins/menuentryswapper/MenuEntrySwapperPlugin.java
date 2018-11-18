@@ -38,12 +38,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import javax.inject.Inject;
 import lombok.Getter;
 import net.runelite.api.Client;
+import net.runelite.api.Constants;
+import net.runelite.api.DecorativeObject;
 import net.runelite.api.GameState;
 import net.runelite.api.ItemComposition;
 import net.runelite.api.KeyCode;
@@ -51,6 +54,8 @@ import net.runelite.api.MenuAction;
 import net.runelite.api.MenuEntry;
 import net.runelite.api.NPC;
 import net.runelite.api.events.ClientTick;
+import net.runelite.api.Scene;
+import net.runelite.api.Tile;
 import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.events.MenuOpened;
 import net.runelite.api.events.MenuOptionClicked;
@@ -59,9 +64,9 @@ import net.runelite.api.events.WidgetMenuOptionClicked;
 import net.runelite.api.widgets.WidgetID;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.callback.ClientThread;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
-import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.game.ItemVariationMapping;
 import net.runelite.client.menus.MenuManager;
@@ -345,6 +350,9 @@ public class MenuEntrySwapperPlugin extends Plugin
 		swapTeleport("camelot teleport", "seers'");
 		swapTeleport("watchtower teleport", "yanille");
 		swapTeleport("teleport to house", "outside");
+
+		swap("dueling", "clan wars",
+				() -> client.getLocalPlayer().getWorldLocation().getRegionID() == 14231);
 	}
 
 	private void swap(String option, String swappedOption, Supplier<Boolean> enabled)
@@ -707,6 +715,42 @@ public class MenuEntrySwapperPlugin extends Plugin
 		for (MenuEntry entry : menuEntries)
 		{
 			swapMenuEntry(idx++, entry);
+		}
+
+		final Scene scene = client.getScene();
+		final Tile[][][] tiles = scene.getTiles();
+
+		for (int x = 0; x < Constants.SCENE_SIZE; x++)
+		{
+			for (int y = 0; y < Constants.SCENE_SIZE; y++)
+			{
+				final Tile tile = tiles[client.getPlane()][x][y];
+
+				if (tile == null) continue;
+
+				final DecorativeObject dec = tile.getDecorativeObject();
+
+				if (dec == null) continue;
+
+				if (dec.getId() == 31986 || dec.getId() == 15394)
+				{
+					//final MenuEntry[] menuEntries = client.getMenuEntries();
+					final ArrayList<MenuEntry> newEntries = new ArrayList<>();
+					for (int i = 0; i < menuEntries.length; i++)
+					{
+						final MenuEntry entry = menuEntries[i];
+
+						if (entry.getOption().equalsIgnoreCase("examine"))
+						{
+							continue;
+						}
+
+						newEntries.add(entry);
+					}
+
+					client.setMenuEntries(newEntries.stream().toArray(MenuEntry[]::new));
+				}
+			}
 		}
 	}
 
