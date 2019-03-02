@@ -775,6 +775,23 @@ public class MenuEntrySwapperPlugin extends Plugin
 			swapMenuEntry(menuEntries, idx++, entry);
 		}
 
+		if (shiftModifier)
+		{
+			final MenuEntry[] menuEntries = client.getMenuEntries();
+			final ArrayList<MenuEntry> newEntries = new ArrayList<>();
+			for (int i = 0; i < menuEntries.length; i++)
+			{
+				final MenuEntry entry = menuEntries[i];
+
+				if (entry.getOption().equalsIgnoreCase("walk here"))
+				{
+					newEntries.add(entry);
+				}
+			}
+
+			client.setMenuEntries(newEntries.stream().toArray(MenuEntry[]::new));
+		}
+
 		final Scene scene = client.getScene();
 		final Tile[][][] tiles = scene.getTiles();
 
