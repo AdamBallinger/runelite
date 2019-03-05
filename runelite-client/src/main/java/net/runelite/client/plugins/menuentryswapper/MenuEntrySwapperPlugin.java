@@ -783,7 +783,8 @@ public class MenuEntrySwapperPlugin extends Plugin
 			{
 				final MenuEntry entry = menuEntries[i];
 
-				if (entry.getOption().equalsIgnoreCase("walk here"))
+				if (entry.getOption().equalsIgnoreCase("walk here") ||
+				entry.getOption().equalsIgnoreCase("drop"))
 				{
 					newEntries.add(entry);
 				}
