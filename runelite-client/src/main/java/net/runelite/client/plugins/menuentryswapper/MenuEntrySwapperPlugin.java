@@ -777,14 +777,16 @@ public class MenuEntrySwapperPlugin extends Plugin
 
 		if (shiftModifier)
 		{
-			final MenuEntry[] menuEntries = client.getMenuEntries();
+//			final MenuEntry[] menuEntries = client.getMenuEntries();
 			final ArrayList<MenuEntry> newEntries = new ArrayList<>();
 			for (int i = 0; i < menuEntries.length; i++)
 			{
 				final MenuEntry entry = menuEntries[i];
 
-				if (entry.getOption().equalsIgnoreCase("walk here") ||
-				entry.getOption().equalsIgnoreCase("drop"))
+				if (entry.getOption().equalsIgnoreCase("walk here")
+						|| entry.getOption().equalsIgnoreCase("drop")
+						|| entry.getOption().equalsIgnoreCase("cancel")
+						|| entry.getOption().contains("Mark"))
 				{
 					newEntries.add(entry);
 				}
