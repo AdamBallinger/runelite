@@ -126,6 +126,16 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "shiftRemovedOptions",
+		name = "Remove menu options on shift",
+		description = "When the shift key is pressed, these options will be removed from the menu."
+	)
+	default String getShiftRemovedOptions()
+	{
+		return "";
+	}
+
+	@ConfigItem(
 		position = -2,
 		keyName = "shiftClickCustomization",
 		name = "Customizable shift-click",

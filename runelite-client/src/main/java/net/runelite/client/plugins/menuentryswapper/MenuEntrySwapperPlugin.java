@@ -43,6 +43,8 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import javax.inject.Inject;
+import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.Constants;
 import net.runelite.api.DecorativeObject;
@@ -83,6 +85,7 @@ import net.runelite.client.util.Text;
 	tags = {"npcs", "inventory", "items", "objects"},
 	enabledByDefault = false
 )
+@Slf4j
 public class MenuEntrySwapperPlugin extends Plugin
 {
 	private static final String CONFIGURE = "Configure";
@@ -181,6 +184,7 @@ public class MenuEntrySwapperPlugin extends Plugin
 
 	private final Multimap<String, Swap> swaps = LinkedHashMultimap.create();
 	private final ArrayListMultimap<String, Integer> optionIndexes = ArrayListMultimap.create();
+	private List<String> removedEntries = new ArrayList<>();
 
 	@Provides
 	MenuEntrySwapperConfig provideConfig(ConfigManager configManager)
@@ -193,6 +197,7 @@ public class MenuEntrySwapperPlugin extends Plugin
 	{
 		enableCustomization();
 		setupSwaps();
+		removedEntries = Text.fromCSV(config.getShiftRemovedOptions());
 	}
 
 	@Override
@@ -775,22 +780,11 @@ public class MenuEntrySwapperPlugin extends Plugin
 			swapMenuEntry(menuEntries, idx++, entry);
 		}
 
-		if (shiftModifier)
+		if (shiftModifier())
 		{
-//			final MenuEntry[] menuEntries = client.getMenuEntries();
-			final ArrayList<MenuEntry> newEntries = new ArrayList<>();
-			for (int i = 0; i < menuEntries.length; i++)
-			{
-				final MenuEntry entry = menuEntries[i];
-
-				if (entry.getOption().equalsIgnoreCase("walk here")
-						|| entry.getOption().equalsIgnoreCase("drop")
-						|| entry.getOption().equalsIgnoreCase("cancel")
-						|| entry.getOption().contains("Mark"))
-				{
-					newEntries.add(entry);
-				}
-			}
+			final List<MenuEntry> newEntries = Arrays.stream(client.getMenuEntries())
+					.filter(item -> !removedEntries.contains(item.getOption()))
+					.collect(Collectors.toList());
 
 			client.setMenuEntries(newEntries.stream().toArray(MenuEntry[]::new));
 		}
