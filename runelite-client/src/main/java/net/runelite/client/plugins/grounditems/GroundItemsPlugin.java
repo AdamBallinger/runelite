@@ -625,11 +625,6 @@ public class GroundItemsPlugin extends Plugin
 		}
 	}
 
-	private int getNaturePrice()
-	{
-		return itemManager.getItemPrice(ItemID.NATURE_RUNE);
-	}
-
 	private void notifyHighlightedItem(GroundItem item)
 	{
 		final boolean shouldNotifyHighlighted = config.notifyHighlightedDrops() &&
