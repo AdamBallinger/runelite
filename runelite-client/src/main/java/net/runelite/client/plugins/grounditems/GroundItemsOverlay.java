@@ -272,14 +272,6 @@ public class GroundItemsOverlay extends Overlay
 				}
 			}
 
-			if (config.tagProfitableAlchables())
-			{
-				if (plugin.isItemAlchProfitable(item.getItemId()))
-				{
-					itemStringBuilder.append(config.profitablesTag());
-				}
-			}
-
 			final String itemString = itemStringBuilder.toString();
 			itemStringBuilder.setLength(0);
 
