@@ -782,12 +782,6 @@ public class MenuEntrySwapperPlugin extends Plugin
 
 		if (shiftModifier())
 		{
-			// Shift deposit-all in bank
-			if (option.contains("deposit"))
-			{
-				swap("deposit-all", option, target, true);
-			}
-
 			// Shift remove filtered options
 			final List<MenuEntry> newEntries = Arrays.stream(client.getMenuEntries())
 					.filter(item -> !removedEntries.contains(item.getOption()))
