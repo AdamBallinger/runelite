@@ -589,7 +589,8 @@ public class DemonicGorillaPlugin extends Plugin
 					shouldDecreaseCounter = true;
 				}
 				else if (target.getRecentHitsplats().stream()
-					.anyMatch(x -> x.getHitsplatType() == Hitsplat.HitsplatType.BLOCK))
+					.anyMatch(x -> x.getHitsplatType() == Hitsplat.HitsplatType.BLOCK_OTHER ||
+								x.getHitsplatType() == Hitsplat.HitsplatType.BLOCK_ME))
 				{
 					// A blue hitsplat appeared, so we assume the gorilla hit a 0
 					shouldDecreaseCounter = true;
@@ -636,8 +637,10 @@ public class DemonicGorillaPlugin extends Plugin
 		{
 			DemonicGorilla gorilla = gorillas.get(event.getActor());
 			Hitsplat.HitsplatType hitsplatType = event.getHitsplat().getHitsplatType();
-			if (gorilla != null && (hitsplatType == Hitsplat.HitsplatType.BLOCK ||
-				hitsplatType == Hitsplat.HitsplatType.DAMAGE))
+			if (gorilla != null && (hitsplatType == Hitsplat.HitsplatType.BLOCK_ME ||
+				hitsplatType == Hitsplat.HitsplatType.DAMAGE_OTHER) ||
+				hitsplatType == Hitsplat.HitsplatType.BLOCK_OTHER ||
+				hitsplatType == Hitsplat.HitsplatType.DAMAGE_ME)
 			{
 				gorilla.setTakenDamageRecently(true);
 			}
