@@ -45,6 +45,10 @@ public class DemonicGorilla
 	static final int PROJECTILE_MAGIC_DELAY = 12; // Requires an extra 12 tiles
 	static final int PROJECTILE_RANGED_DELAY = 9; // Requires an extra 9 tiles
 
+	static final int RANGED_PROJECTILE_ID = 1302;
+	static final int MAGIC_PROJECTILE_ID = 1304;
+	static final int BOULDER_PROJECTILE_ID = 856;
+
 	public static final AttackStyle[] ALL_REGULAR_ATTACK_STYLES =
 		{
 			AttackStyle.MELEE,

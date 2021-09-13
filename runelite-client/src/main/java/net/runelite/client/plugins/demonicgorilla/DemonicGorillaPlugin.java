@@ -42,7 +42,6 @@ import net.runelite.api.NPC;
 import net.runelite.api.NpcID;
 import net.runelite.api.Player;
 import net.runelite.api.Projectile;
-import net.runelite.api.ProjectileID;
 import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.GameStateChanged;
@@ -362,11 +361,11 @@ public class DemonicGorillaPlugin extends Plugin
 							// priority over normal attack animations.
 
 							int projectileId = gorilla.getRecentProjectileId();
-							if (projectileId == ProjectileID.DEMONIC_GORILLA_MAGIC)
+							if (projectileId == DemonicGorilla.MAGIC_PROJECTILE_ID)
 							{
 								onGorillaAttack(gorilla, DemonicGorilla.AttackStyle.MAGIC);
 							}
-							else if (projectileId == ProjectileID.DEMONIC_GORILLA_RANGED)
+							else if (projectileId == DemonicGorilla.RANGED_PROJECTILE_ID)
 							{
 								onGorillaAttack(gorilla, DemonicGorilla.AttackStyle.RANGED);
 							}
@@ -531,9 +530,9 @@ public class DemonicGorillaPlugin extends Plugin
 	{
 		Projectile projectile = event.getProjectile();
 		int projectileId = projectile.getId();
-		if (projectileId != ProjectileID.DEMONIC_GORILLA_RANGED &&
-			projectileId != ProjectileID.DEMONIC_GORILLA_MAGIC &&
-			projectileId != ProjectileID.DEMONIC_GORILLA_BOULDER)
+		if (projectileId != DemonicGorilla.RANGED_PROJECTILE_ID &&
+			projectileId != DemonicGorilla.MAGIC_PROJECTILE_ID &&
+			projectileId != DemonicGorilla.BOULDER_PROJECTILE_ID)
 		{
 			return;
 		}
@@ -545,12 +544,11 @@ public class DemonicGorillaPlugin extends Plugin
 			return;
 		}
 
-		if (projectileId == ProjectileID.DEMONIC_GORILLA_BOULDER)
+		if (projectileId == DemonicGorilla.BOULDER_PROJECTILE_ID)
 		{
 			recentBoulders.add(WorldPoint.fromLocal(client, event.getPosition()));
 		}
-		else if (projectileId == ProjectileID.DEMONIC_GORILLA_MAGIC ||
-			projectileId == ProjectileID.DEMONIC_GORILLA_RANGED)
+		else
 		{
 			WorldPoint projectileSourcePosition = WorldPoint.fromLocal(
 				client, projectile.getX1(), projectile.getY1(), client.getPlane());
