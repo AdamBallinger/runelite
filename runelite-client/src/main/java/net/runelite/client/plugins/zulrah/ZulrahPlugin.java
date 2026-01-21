@@ -47,8 +47,6 @@ import net.runelite.client.plugins.zulrah.rotation.ZulrahRotationThree;
 import net.runelite.client.plugins.zulrah.rotation.ZulrahRotationTwo;
 import net.runelite.client.ui.overlay.OverlayManager;
 
-import java.util.List;
-
 @PluginDescriptor(
 	name = "Zulrah"
 )
