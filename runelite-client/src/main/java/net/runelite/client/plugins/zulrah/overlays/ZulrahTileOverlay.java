@@ -57,9 +57,9 @@ public class ZulrahTileOverlay extends Overlay
 {
 	private static final Color NEXT_COLOR = new Color(255, 255, 255, 150);
 
-	private Client client;
-	private ZulrahPlugin plugin;
-	private SpriteManager spriteManager;
+	private final Client client;
+	private final ZulrahPlugin plugin;
+	private final SpriteManager spriteManager;
 
 	@Inject
 	ZulrahTileOverlay(Client client, ZulrahPlugin plugin, SpriteManager spriteManager)

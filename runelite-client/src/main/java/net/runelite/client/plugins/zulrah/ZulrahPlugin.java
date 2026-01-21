@@ -26,10 +26,13 @@ package net.runelite.client.plugins.zulrah;
 
 import com.google.inject.Binder;
 import com.google.inject.Inject;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
+import net.runelite.api.IndexedObjectSet;
 import net.runelite.api.NPC;
 import net.runelite.api.NPCComposition;
+import net.runelite.api.WorldView;
 import net.runelite.api.events.GameTick;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
@@ -52,7 +55,7 @@ import java.util.List;
 @Slf4j
 public class ZulrahPlugin extends Plugin
 {
-	private ZulrahRotation[] rotations = new ZulrahRotation[]
+	private final ZulrahRotation[] rotations = new ZulrahRotation[]
 		{
 			new ZulrahRotationOne(),
 			new ZulrahRotationTwo(),
@@ -60,10 +63,11 @@ public class ZulrahPlugin extends Plugin
 			new ZulrahRotationFour()
 		};
 
-	private NPC zulrah;
-
 	@Inject
 	private Client client;
+
+	@Inject()
+	private WorldView worldView;
 
 	@Inject
 	private OverlayManager overlayManager;
@@ -74,6 +78,7 @@ public class ZulrahPlugin extends Plugin
 	@Inject
 	private ZulrahRotationOverlay rotationOverlay;
 
+	@Getter
 	private ZulrahInstance instance;
 
 	@Override
@@ -92,7 +97,7 @@ public class ZulrahPlugin extends Plugin
 	@Subscribe
 	public void onGameTick(GameTick event)
 	{
-		zulrah = findZulrah();
+		NPC zulrah = findZulrah();
 
 		if (zulrah == null)
 		{
@@ -148,7 +153,7 @@ public class ZulrahPlugin extends Plugin
 
 	private NPC findZulrah()
 	{
-		final List<NPC> npcs = client.getNpcs();
+		final IndexedObjectSet<? extends NPC> npcs = worldView.npcs();
 
 		for (NPC npc : npcs)
 		{
@@ -160,10 +165,5 @@ public class ZulrahPlugin extends Plugin
 		}
 
 		return null;
-	}
-
-	public ZulrahInstance getInstance()
-	{
-		return instance;
 	}
 }

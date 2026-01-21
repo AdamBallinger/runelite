@@ -24,11 +24,13 @@
  */
 package net.runelite.client.plugins.zulrah.phase;
 
+import lombok.Getter;
 import net.runelite.api.NPC;
 import net.runelite.api.coords.WorldPoint;
 
 import java.awt.Color;
 
+@Getter
 public class ZulrahPhase
 {
 	private static final Color RANGE_COLOR = new Color(150, 255, 0, 150);
@@ -36,10 +38,10 @@ public class ZulrahPhase
 	private static final Color MELEE_COLOR = new Color(180, 50, 20, 150);
 	private static final Color JAD_COLOR = new Color(255, 115, 0, 150);
 
-	private ZulrahLocation zulrahLocation;
-	private ZulrahType type;
-	private boolean jad;
-	private SafeLocation safeLocation;
+	private final ZulrahLocation zulrahLocation;
+	private final ZulrahType type;
+	private final boolean jad;
+	private final SafeLocation safeLocation;
 
 	public ZulrahPhase(ZulrahLocation zulrahLocation, ZulrahType type, boolean jad, SafeLocation safeLocation)
 	{
@@ -58,26 +60,6 @@ public class ZulrahPhase
 			return null;
 		}
 		return new ZulrahPhase(zulrahLocation, type, false, SafeLocation.TOP_EAST);
-	}
-
-	public ZulrahLocation getZulrahLocation()
-	{
-		return zulrahLocation;
-	}
-
-	public ZulrahType getType()
-	{
-		return type;
-	}
-
-	public boolean isJad()
-	{
-		return jad;
-	}
-
-	public SafeLocation getSafeLocation()
-	{
-		return safeLocation;
 	}
 
 	public WorldPoint getZulrahWorldPoint(WorldPoint start)
@@ -169,5 +151,4 @@ public class ZulrahPhase
 		}
 		return RANGE_COLOR;
 	}
-
 }

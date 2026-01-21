@@ -39,7 +39,7 @@ import java.awt.Graphics2D;
 public class ZulrahRotationOverlay extends Overlay
 {
 	private final PanelComponent panelComponent = new PanelComponent();
-	private ZulrahPlugin plugin;
+	private final ZulrahPlugin plugin;
 
 	@Inject
 	ZulrahRotationOverlay(ZulrahPlugin plugin)

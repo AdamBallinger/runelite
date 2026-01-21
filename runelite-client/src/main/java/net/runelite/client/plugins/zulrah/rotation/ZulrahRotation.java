@@ -34,7 +34,7 @@ import java.util.List;
 
 public class ZulrahRotation
 {
-	private List<ZulrahPhase> rotation = new ArrayList<>();
+	private final List<ZulrahPhase> rotation = new ArrayList<>();
 
 	public void add(ZulrahLocation zulrahLocation, ZulrahType type, boolean jad, SafeLocation safeLocation)
 	{
