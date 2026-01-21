@@ -34,35 +34,35 @@ import java.util.List;
 
 public class ZulrahRotation
 {
-    private List<ZulrahPhase> rotation = new ArrayList<>();
+	private List<ZulrahPhase> rotation = new ArrayList<>();
 
-    public void add(ZulrahLocation zulrahLocation, ZulrahType type, boolean jad, SafeLocation safeLocation)
-    {
-        rotation.add(new ZulrahPhase(zulrahLocation, type, jad, safeLocation));
-    }
+	public void add(ZulrahLocation zulrahLocation, ZulrahType type, boolean jad, SafeLocation safeLocation)
+	{
+		rotation.add(new ZulrahPhase(zulrahLocation, type, jad, safeLocation));
+	}
 
-    public void add(ZulrahLocation zulrahLocation, ZulrahType type, SafeLocation safeLocation)
-    {
-        add(zulrahLocation, type, false, safeLocation);
-    }
+	public void add(ZulrahLocation zulrahLocation, ZulrahType type, SafeLocation safeLocation)
+	{
+		add(zulrahLocation, type, false, safeLocation);
+	}
 
-    public ZulrahPhase getPhase(int stage)
-    {
-        if (stage >= rotation.size())
-        {
-            return null;
-        }
-        return rotation.get(stage);
-    }
+	public ZulrahPhase getPhase(int stage)
+	{
+		if (stage >= rotation.size())
+		{
+			return null;
+		}
+		return rotation.get(stage);
+	}
 
-    public boolean stageEquals(int stage, ZulrahPhase phase)
-    {
+	public boolean stageEquals(int stage, ZulrahPhase phase)
+	{
 
-        return phase != null && phase.equals(getPhase(stage));
-    }
+		return phase != null && phase.equals(getPhase(stage));
+	}
 
-    public boolean canReset(int stage)
-    {
-        return stage >= rotation.size();
-    }
+	public boolean canReset(int stage)
+	{
+		return stage >= rotation.size();
+	}
 }

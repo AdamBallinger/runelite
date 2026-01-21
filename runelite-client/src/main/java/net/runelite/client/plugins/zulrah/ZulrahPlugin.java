@@ -47,123 +47,123 @@ import net.runelite.client.ui.overlay.OverlayManager;
 import java.util.List;
 
 @PluginDescriptor(
-        name = "Zulrah"
+	name = "Zulrah"
 )
 @Slf4j
 public class ZulrahPlugin extends Plugin
 {
-    private ZulrahRotation[] rotations = new ZulrahRotation[]
-            {
-                    new ZulrahRotationOne(),
-                    new ZulrahRotationTwo(),
-                    new ZulrahRotationThree(),
-                    new ZulrahRotationFour()
-            };
+	private ZulrahRotation[] rotations = new ZulrahRotation[]
+		{
+			new ZulrahRotationOne(),
+			new ZulrahRotationTwo(),
+			new ZulrahRotationThree(),
+			new ZulrahRotationFour()
+		};
 
-    private NPC zulrah;
+	private NPC zulrah;
 
-    @Inject
-    private Client client;
+	@Inject
+	private Client client;
 
-    @Inject
-    private OverlayManager overlayManager;
+	@Inject
+	private OverlayManager overlayManager;
 
-    @Inject
-    private ZulrahTileOverlay tileOverlay;
+	@Inject
+	private ZulrahTileOverlay tileOverlay;
 
-    @Inject
-    private ZulrahRotationOverlay rotationOverlay;
+	@Inject
+	private ZulrahRotationOverlay rotationOverlay;
 
-    private ZulrahInstance instance;
+	private ZulrahInstance instance;
 
-    @Override
-    public void configure(Binder binder)
-    {
-        binder.bind(ZulrahTileOverlay.class);
-    }
+	@Override
+	public void configure(Binder binder)
+	{
+		binder.bind(ZulrahTileOverlay.class);
+	}
 
-    @Override
-    protected void startUp() throws Exception
-    {
-        overlayManager.add(tileOverlay);
-        overlayManager.add(rotationOverlay);
-    }
+	@Override
+	protected void startUp() throws Exception
+	{
+		overlayManager.add(tileOverlay);
+		overlayManager.add(rotationOverlay);
+	}
 
-    @Subscribe
-    public void onGameTick(GameTick event)
-    {
-        zulrah = findZulrah();
+	@Subscribe
+	public void onGameTick(GameTick event)
+	{
+		zulrah = findZulrah();
 
-        if (zulrah == null)
-        {
-            if (instance != null)
-            {
-                log.debug("Zulrah encounter has ended.");
-                instance = null;
-            }
-            return;
-        }
+		if (zulrah == null)
+		{
+			if (instance != null)
+			{
+				log.debug("Zulrah encounter has ended.");
+				instance = null;
+			}
+			return;
+		}
 
-        if (instance == null)
-        {
-            instance = new ZulrahInstance(zulrah);
-            log.debug("Zulrah encounter has started.");
-        }
+		if (instance == null)
+		{
+			instance = new ZulrahInstance(zulrah);
+			log.debug("Zulrah encounter has started.");
+		}
 
-        ZulrahPhase phase = ZulrahPhase.valueOf(instance.getStartWorldPoint(), zulrah);
-        if (instance.getPhase() == null)
-        {
-            instance.setPhase(phase);
-        }
-        else if (!instance.getPhase().equals(phase))
-        {
-            log.debug("Zulrah phase has moved from {} -> {}, Stage: {}", instance.getPhase(), phase, instance.getStage() + 1);
-            instance.setPhase(phase);
-            instance.nextStage();
-        }
+		ZulrahPhase phase = ZulrahPhase.valueOf(instance.getStartWorldPoint(), zulrah);
+		if (instance.getPhase() == null)
+		{
+			instance.setPhase(phase);
+		}
+		else if (!instance.getPhase().equals(phase))
+		{
+			log.debug("Zulrah phase has moved from {} -> {}, Stage: {}", instance.getPhase(), phase, instance.getStage() + 1);
+			instance.setPhase(phase);
+			instance.nextStage();
+		}
 
-        ZulrahRotation rotation = instance.getRotation();
-        if (rotation == null)
-        {
-            int potential = 0;
-            for (ZulrahRotation r : rotations)
-            {
-                if (r.stageEquals(instance.getStage(), instance.getPhase()))
-                {
-                    potential++;
-                    rotation = r;
-                }
-            }
-            if (potential == 1)
-            {
-                log.debug("Zulrah rotation found: {}", rotation);
-                instance.setRotation(rotation);
-            }
-        }
-        else if (rotation.canReset(instance.getStage()))
-        {
-            instance.reset();
-        }
-    }
+		ZulrahRotation rotation = instance.getRotation();
+		if (rotation == null)
+		{
+			int potential = 0;
+			for (ZulrahRotation r : rotations)
+			{
+				if (r.stageEquals(instance.getStage(), instance.getPhase()))
+				{
+					potential++;
+					rotation = r;
+				}
+			}
+			if (potential == 1)
+			{
+				log.debug("Zulrah rotation found: {}", rotation);
+				instance.setRotation(rotation);
+			}
+		}
+		else if (rotation.canReset(instance.getStage()))
+		{
+			instance.reset();
+		}
+	}
 
-    private NPC findZulrah()
-    {
-        final List<NPC> npcs = client.getNpcs();
+	private NPC findZulrah()
+	{
+		final List<NPC> npcs = client.getNpcs();
 
-        for (NPC npc : npcs)
-        {
-            final NPCComposition npcComp = npc.getComposition();
-            if (npcComp.getName().equalsIgnoreCase("zulrah"))
-            {
-                return npc;
-            }
-        }
+		for (NPC npc : npcs)
+		{
+			final NPCComposition npcComp = npc.getComposition();
+			if (npcComp.getName().equalsIgnoreCase("zulrah"))
+			{
+				return npc;
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    public ZulrahInstance getInstance()
-    {
-        return instance;
-    }
+	public ZulrahInstance getInstance()
+	{
+		return instance;
+	}
 }

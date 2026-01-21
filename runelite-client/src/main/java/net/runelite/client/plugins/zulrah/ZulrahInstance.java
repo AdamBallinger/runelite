@@ -24,6 +24,8 @@
  */
 package net.runelite.client.plugins.zulrah;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.runelite.api.NPC;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.plugins.zulrah.phase.SafeLocation;
@@ -34,68 +36,52 @@ import net.runelite.client.plugins.zulrah.rotation.ZulrahRotation;
 
 public class ZulrahInstance
 {
-    private WorldPoint start;
-    private ZulrahRotation rotation;
-    private ZulrahPhase phase;
-    private int stage;
+	private final WorldPoint start;
+	@Setter
+	@Getter
+	private ZulrahRotation rotation;
+	@Setter
+	private ZulrahPhase phase;
+	@Getter
+	private int stage;
 
-    public ZulrahInstance(NPC zulrah)
-    {
-        start = zulrah.getWorldLocation();
-    }
+	public ZulrahInstance(NPC zulrah)
+	{
+		start = zulrah.getWorldLocation();
+	}
 
-    public WorldPoint getStartWorldPoint()
-    {
-        return start;
-    }
+	public WorldPoint getStartWorldPoint()
+	{
+		return start;
+	}
 
-    public ZulrahRotation getRotation()
-    {
-        return rotation;
-    }
+	public ZulrahPhase getPhase()
+	{
+		return rotation != null ? rotation.getPhase(stage) : phase;
+	}
 
-    public void setRotation(ZulrahRotation rotation)
-    {
-        this.rotation = rotation;
-    }
+	public void nextStage()
+	{
+		++stage;
+	}
 
-    public ZulrahPhase getPhase()
-    {
-        return rotation != null ? rotation.getPhase(stage) : phase;
-    }
+	public void reset()
+	{
+		rotation = null;
+		phase = null;
+		stage = 0;
+	}
 
-    public void setPhase(ZulrahPhase phase)
-    {
-        this.phase = phase;
-    }
-
-    public int getStage()
-    {
-        return stage;
-    }
-
-    public void nextStage()
-    {
-        ++stage;
-    }
-
-    public void reset()
-    {
-        rotation = null;
-        phase = null;
-        stage = 0;
-    }
-
-    public ZulrahPhase getNextPhase()
-    {
-        if (rotation != null)
-        {
-            return rotation.getPhase(stage + 1);
-        }
-        else if (phase != null && phase.getType() == ZulrahType.MAGIC)
-        {
-            return new ZulrahPhase(ZulrahLocation.SOUTH, ZulrahType.RANGE, false, SafeLocation.PILLAR_WEST_INSIDE);
-        }
-        return null;
-    }
+	public ZulrahPhase getNextPhase()
+	{
+		if (rotation != null)
+		{
+			return rotation.getPhase(stage + 1);
+		}
+		else if (phase != null && phase.getType() == ZulrahType.MAGIC)
+		{
+			return new ZulrahPhase(ZulrahLocation.SOUTH, ZulrahType.RANGE, false, SafeLocation.PILLAR_WEST_INSIDE);
+		}
+		return null;
+	}
 }
