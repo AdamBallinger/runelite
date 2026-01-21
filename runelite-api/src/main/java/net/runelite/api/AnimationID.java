@@ -262,6 +262,7 @@ public final class AnimationID
 	public static final int DEMONIC_GORILLA_MAGIC_ATTACK = 7225;
 	public static final int DEMONIC_GORILLA_MELEE_ATTACK = 7226;
 	public static final int DEMONIC_GORILLA_RANGED_ATTACK = 7227;
+	public static final int DEMONIC_GORILLA_AOE_ATTACK = 7228;
 	public static final int DEMONIC_GORILLA_DEFEND = 7224;
 	public static final int BOOK_HOME_TELEPORT_1 = 4847;
 	public static final int BOOK_HOME_TELEPORT_2 = 4850;

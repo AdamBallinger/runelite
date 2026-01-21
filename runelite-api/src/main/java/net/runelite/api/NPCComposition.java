@@ -38,6 +38,8 @@ public interface NPCComposition extends ParamHolder
 	int STAT_RANGED = 4;
 	int STAT_MAGIC = 5;
 
+	HeadIcon getOverheadIcon();
+
 	/**
 	 * Gets the name of the NPC.
 	 */
