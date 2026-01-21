@@ -26,6 +26,7 @@ package net.runelite.client.plugins.zulrah;
 
 import com.google.inject.Binder;
 import com.google.inject.Inject;
+import java.util.List;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
@@ -63,9 +64,6 @@ public class ZulrahPlugin extends Plugin
 
 	@Inject
 	private Client client;
-
-	@Inject()
-	private WorldView worldView;
 
 	@Inject
 	private OverlayManager overlayManager;
@@ -151,7 +149,7 @@ public class ZulrahPlugin extends Plugin
 
 	private NPC findZulrah()
 	{
-		final IndexedObjectSet<? extends NPC> npcs = worldView.npcs();
+		final List<NPC> npcs = client.getNpcs();
 
 		for (NPC npc : npcs)
 		{
